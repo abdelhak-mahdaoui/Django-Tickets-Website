@@ -1,0 +1,20 @@
+{% extends "main/base.html" %}
+
+{% block title %}My Tickets{% endblock %}
+
+{% block content %}
+    <br>
+    <br>
+    <h2>My Tickets</h2>
+    <br>
+    {% if user_tickets %}
+        <ul>
+            {% for ticket in user_tickets %}
+                <li><a href="/event/{{ticket.event.id}}">{{ ticket }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no tickets.</p>
+    {% endif %}
+{% endblock %}
+

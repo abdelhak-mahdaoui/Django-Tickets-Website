@@ -1,0 +1,51 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+
+    <style>
+        .card {
+            margin: 10px;  /* Add a margin of 10px to the card */
+        }
+        
+        .card-img-top {
+            object-fit: cover;  /* Make the image fit within the card */
+            height: 200px;  /* Set a fixed height for the image */
+            margin: 10px;  /* Add a margin of 10px to the image */
+            border-radius: 5px;
+        }
+        .non-selectable {
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            }
+    </style>
+        <br>
+        <br>
+        <br>
+        <h1 class="non-selectable">Home Page</h1>
+        <br>
+        <h3 class="non-selectable">Latest Events</h3>
+
+    <div class="card-deck">
+        {% for event in ev_all %}
+            {% if forloop.counter|divisibleby:2 %}
+                <br>  {# Add a line break before starting a new row #}
+            {% endif %}
+            <a href="/event/{{ event.id }}"><div class="card text-center bg-dark text-white">
+                {% if event.image %}
+                    <div style="height: 200px;">
+                        <img src="{{ event.image.url }}" class="card-img-top zoom-image" alt="Event Image">
+                    </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title"><a href="/event/{{ event.id }}" style="text-decoration: none; color: #a3a0a0;">{{ event.title }}</a></h5>
+                </div>
+            </div></a>
+        {% endfor %}
+    </div>
+{% endblock %}

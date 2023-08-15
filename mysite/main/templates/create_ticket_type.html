@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Tickets{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h1>Create Tickets</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <a href="/event/{{ event_id }}/add_tickets"><button type="submit" class="btn btn-primary" style="margin-top: 10px;">Create Tickets</button></a>
+    </form>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "main/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}View{% endblock %}
+
+{% block content %}
+    {% for ev in ev_all %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h3 class="card-title">{{ ev.title }}</h3>
+                <p class="card-text">{{ ev.description }}</p>
+                <p class="card-text"><b>Start Time: </b>{{ ev.start_time }}</p>
+                <p class="card-text"><b>End Time: </b>{{ ev.end_time }}</p>
+                <p class="card-text"><b>Location: </b>{{ ev.location }}</p>
+                
+                <a href="/event/{{ ev.id }}" class="btn btn-primary">View Event</a>
+                
+                {% if user.is_authenticated and user.is_organizer %}
+                    <a href="/event/{{ ev.id }}/modify" class="btn btn-warning">Edit Event</a>
+                    <a href="/event/{{ ev.id }}/delete" class="btn btn-danger">Delete Event</a>
+                    <a href="/event/{{ ev.id }}/finish" class="btn btn-secondary">Mark as Finished</a>
+                    <a href="/event/{{ ev.id }}/add_ticket_type" class="btn btn-success">Add Tickets</a>
+                    <a href="/event/{{ ev.id }}/delete_ticket_type" class="btn btn-danger">Delete Tickets</a>
+                {% endif %}
+    
+                {% if user.is_authenticated and user.is_admin %}
+                    <a href="/event/{{ ev.id }}/approve" class="btn btn-warning">Approve Event</a>
+                    <a href="/event/{{ ev.id }}/finish" class="btn btn-secondary">Mark as Finished</a>
+                    <a href="/event/{{ ev.id }}/delete" class="btn btn-danger">Delete Event</a>
+                {% endif %}
+    
+                {% if user.is_authenticated and user.is_superuser %}
+                    <a href="/event/{{ ev.id }}/approve" class="btn btn-warning">Approve Event</a>
+                    <a href="/event/{{ ev.id }}/finish" class="btn btn-secondary">Mark as Finished</a>
+                    <a href="/event/{{ ev.id }}/delete" class="btn btn-danger">Delete Event</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

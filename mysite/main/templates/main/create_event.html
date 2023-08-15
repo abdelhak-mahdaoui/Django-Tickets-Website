@@ -1,0 +1,34 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Create New Event
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h1>Create New Event</h1>
+    <!--
+        <form action="/create/" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <div id="ticket-types-formset">
+            {% for ticket_type_form in form.ticket_types %}
+              <div class="ticket-type-form">
+                {{ ticket_type_form.as_table }}
+              </div>
+            {% endfor %}
+        </div>
+        <button type="button" id="add-ticket-type">Add Ticket Type</button>
+        
+        <button type="submit" name="save">Save</button>
+    </form>
+    -->
+
+    <form method="POST" action="/event/create/" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary mb-4">Create Event</button>
+    </form>
+{% endblock %}

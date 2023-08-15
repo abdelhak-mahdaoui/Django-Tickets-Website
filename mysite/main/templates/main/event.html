@@ -1,0 +1,52 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ ev.title }}{% endblock %}
+
+{% block content %}
+    <div class="card text-white">
+        <div class="card-body text-center">
+            <h1 class="card-title non-selectable">{{ ev.title }}</h1>
+            <ul class="list-unstyled mt-3 non-selectable">
+                {% if ev.image %}
+                    <li class="image-list-item mb-2"><img src="{{ ev.image.url }}" alt="Event Image" height="100px" style="border-radius: 5px;"></li>
+                {% endif %}
+                <li>Description: {{ ev.description }}</li>
+                <li>Start Time: {{ ev.start_time }}</li>
+                <li>End Time: {{ ev.end_time }}</li>
+                <li>Location: {{ ev.location }}</li>
+                <li>Organizer: {{ ev.organizer }}</li>
+                {% if ticket_types %}
+                    <li>
+                        <h4 class="mt-2">Tickets</h4>
+                        {% for ticket_type in ticket_types %}
+                            {{ ticket_type.name }} | {{ ticket_type.price }}<br>
+                        {% endfor %}
+                    </li>
+                {% else %}
+                    <li>No tickets were added yet by the organizer.</li>
+                {% endif %}
+            </ul>
+            {% if user.is_authenticated and user.is_user %}
+                {% if user_tickets %}
+                    <a href="/event/{{ event_id }}/refund_ticket" class="btn btn-primary">Refund Ticket</a>
+                {% else %}
+                    <a href="/event/{{ event_id }}/buy_ticket" class="btn btn-primary">Buy Ticket</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .image-list-item {
+            list-style: none;
+        }
+        .card {
+            background-color: #111;
+        }
+        .card-body {
+            color: #adacac;
+        }
+    </style>
+{% endblock %}

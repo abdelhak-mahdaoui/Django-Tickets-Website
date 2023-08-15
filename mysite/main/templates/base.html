@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+    <head>
+        <style type="text/css">
+            body {
+                overflow-x: hidden;
+            }
+            .sidenav {
+                height:100%;
+                width:230px;
+                position: fixed;
+                z-index:1;
+                top:0;
+                left:0;
+                background-color:#111;
+                overflow-x: hidden;
+                padding-top:20px;
+            }
+     
+            .sidenav a {
+                padding:6px 8px 6px 16px;
+                text-decoration: none;
+                font-size:25px;
+                color: #818181;
+                display:block;
+            }
+     
+            .sidenav a:hover{
+                color:#f1f1f1;
+            }	
+     
+            .main{
+                margin-left:240px;
+                padding: 0px 10px;
+            }
+
+            .user{
+                color: #aaa7a7;
+                font-family: 'Courier New', Courier, monospace;
+                font-size: larger;
+            }
+
+            .smooth-transition {
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+            }
+
+            .smooth-transition.show {
+                opacity: 1;
+            }
+            .non-selectable {
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            }  
+            /* Apply initial styles to the image */
+            .zoom-image {
+            width: 300px; /* Set the initial width of the image */
+            transition: transform 0.3s; /* Add smooth transition for the zoom effect */
+            }
+
+            /* Apply zoom effect on hover */
+            .zoom-image:hover {
+            transform: scale(1.1); /* Scale the image by 20% on hover */
+            }             
+        </style>
+        <title>{% block title %}<span style="color: #017aff;">Events</span>.ma{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        {% block styles %}{% endblock %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            var element = document.querySelector('.smooth-transition');
+            element.classList.add('show');
+            });
+        </script>
+    </head>
+
+    <body class="smooth-transition">
+
+    <!--         
+        <header>
+            {% if user.is_authenticated %}
+                <p class="text-white text-center font-weight-bold">Welcome, {{ user.username }}</p>
+            {% else %}
+                <p class="text-white text-center font-weight-bold">You are browsing anonymously</p>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <a href="/logout">Logout</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/create_user">Sign Up</a>
+            {% endif %}
+        </header>
+     -->
+
+        <nav class="sidenav">
+            {% if user.is_authenticated %}
+                <p class="text-center user non-selectable">Welcome, {{ user.username }}</p>
+            {% else %}
+                <p class="text-center user non-selectable">You are browsing anonymously</p>
+            {% endif %}
+
+            <hr class="mt-1 mb-4">
+
+            <a href="/">Home</a>
+            {% if user.is_authenticated and user.is_organizer %}
+                <a href="/event/create">Create New Event</a>
+                <a href="/event/view">View My Events</a>
+            {% endif %}
+
+            {% if user.is_authenticated and user.is_admin %}
+                <a href="/event/view">View All Events</a>
+                <a href="/users">View All Users</a>
+            {% endif %}
+
+            {% if user.is_authenticated and user.is_superuser %}
+                <a href="/event/view">View All Events</a>
+                <a href="/users">View All Users</a>
+            {% endif %}
+
+            {% if user.is_authenticated and user.is_user %}
+                <a href="/event/view">View All Events</a>
+                <a href="/view_tickets">View My Tickets</a>
+            {% endif %}
+            <a href="/event/search">Search Events</a>
+
+            {% if user.is_authenticated %}
+                <a href="/logout">Logout</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/create_user">Sign Up</a>
+            {% endif %}
+        </nav>
+
+        <div id="content" name="content" class="main">
+            <div class="row justify-content-center">
+                <div class="col-8">
+                    <a href="/" style="text-decoration: none;"><h1 class="mt-1 text-center"><span style="color: #017aff;">Events</span><span style="color: #000000;">.ma</span></h1></a>
+                    <hr class="mt-0 mb-4">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>
+

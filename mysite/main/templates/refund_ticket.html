@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Refund Ticket{% endblock %}
+
+
+{% block content %}
+    <h1>Refund Ticket</h1>
+    {% if ticket %}
+        <p>Are you sure you want to refund the following ticket?</p>
+        <ul>
+            <li>Ticket ID: {{ ticket.id }}</li>
+            <li>Event: {{ ticket.event.title }}</li>
+            <li>Ticket Type: {{ ticket.ticket_type.name }}</li>
+            <li>Purchase Date: {{ ticket.purchase_date }}</li>
+        </ul>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Refund Ticket</button>
+        </form>
+    {% else %}
+        <p>No ticket found for refund.</p>
+    {% endif %}
+{% endblock %}
+

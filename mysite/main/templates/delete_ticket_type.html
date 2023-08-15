@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Tickets{% endblock %}
+
+{% block styles %}
+<style>
+    ul {
+        list-style-type: none;
+    }
+
+    li {
+        display: table-row;
+        margin-bottom: 10px;
+    }
+
+    li > * {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    li .btn {
+        margin-left: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <h1>Delete Tickets</h1>
+    <br>
+    <h2>Event: <a href="/event/{{ event_id }}">{{ event.title }}</a></h2>
+
+    {% if ticket_types %}
+        <h4>Available Ticket Types:</h4>
+        <br>
+        <table>
+            <tbody>
+            {% for ticket_type in ticket_types %}
+                <tr>
+                    <td>
+                        {{ ticket_type.name }} | {{ ticket_type.price }}
+                    </td>
+                    <td>
+                        <div style="margin-left: 30px; margin-bottom: 10px;">
+                            <form method="POST" action="{% url 'delete_ticket_type' event_id=event.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <input type="hidden" name="ticket_type_id" value="{{ ticket_type.id }}">
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No ticket types available for this event.</p>
+    {% endif %}
+
+    <br>
+    <a href="/event/{{ event_id }}/add_ticket_type" class="btn btn-success">Go back to adding tickets.</a>
+{% endblock %}
